@@ -19,10 +19,17 @@
             <input type="text" placeholder="Enter Your Location" />
             <button class="bi bi-search"></button>
           </form>
+          <div class="search-results">
+            <div class="search-results-wrapper"></div>
+          </div>
         </div>
 
+        <!-- Weather options -->
         <div class="weather-options">
-          <p class="city-name"></p>
+          <div class="weather-location">
+            <p class="city-name"></p>
+            <p class="city-country"></p>
+          </div>
           <div class="options-btn">
             <button class="unit-switch-imperial">°F</button>
             <span>/</span>
@@ -30,17 +37,19 @@
           </div>
         </div>
 
+        <!-- Weather box svg -->
         <div class="weather-box">
           <div class="weather-box-wrapper">
             <div class="weather-info">
               <div class="weather">
-                <img src="./assets/img/cloud.png" alt="Cloud" />
+                <img src="" alt="" />
                 <p class="temperature"></p>
                 <p class="description"></p>
               </div>
             </div>
           </div>
         </div>
+        <!-- Weather details -->
         <div class="weather-details">
           <div class="humidity">
             <i class="bi bi-water"></i>
@@ -62,6 +71,50 @@
             </div>
           </div>
         </div>
+
+        <!-- More details -->
+        <div class="more-weather-details">
+          <div class="more-detail-btn">
+            <button>View more <i class="bi bi-caret-down-fill"></i></button>
+          </div>
+          <div class="more-details-group">
+            <ul class="more-details-list">
+              <li class="more-details-item">
+                <div class="more-details-icon">
+                  <i class="bi bi-thermometer-half"></i>
+                </div>
+                <div class="more-details-description">High / Low</div>
+                <div class="more-details-data">
+                  <span class="temp-high"></span>
+                  <span class="temp-low"></span>
+                </div>
+              </li>
+              <li class="more-details-item">
+                <div class="more-details-icon">
+                  <i class="bi bi-arrow-up"></i>
+                </div>
+                <div class="more-details-description">Pressure</div>
+                <div class="more-details-data">
+                  <span class="pressure"></span>
+                </div>
+              </li>
+              <li class="more-details-item">
+                <div class="more-details-icon">
+                  <i class="bi bi-eye"></i>
+                </div>
+                <div class="more-details-description">Visibility</div>
+                <div class="more-details-data">
+                  <span class="visibility"></span>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="less-detail-btn">
+            <button>View less <i class="bi bi-caret-up-fill"></i></button>
+          </div>
+        </div>
+
+        <!-- Not found -->
         <div class="not-found">
           <div class="weather-box-wrapper">
             <img src="./assets/img/404.png" alt="Can't find weather" />
