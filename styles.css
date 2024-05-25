@@ -32,7 +32,7 @@
   background-color: rgb(175, 175, 175);
 }
 
-.weather-bg.clear {
+.weather-bg.bright {
   background: linear-gradient(
     90deg,
     rgba(82, 192, 245, 1) 0%,
@@ -41,7 +41,7 @@
   );
 }
 
-.weather-bg.clouds {
+.weather-bg.bright {
   background: linear-gradient(
     90deg,
     rgba(82, 192, 245, 1) 0%,
@@ -50,7 +50,7 @@
   );
 }
 
-.weather-bg.mist-haze {
+.weather-bg.dark {
   background: linear-gradient(
     90deg,
     rgb(171, 187, 194) 0%,
@@ -59,7 +59,7 @@
   );
 }
 
-.weather-bg.rain {
+.weather-bg.dark {
   background: linear-gradient(
     90deg,
     rgb(171, 187, 194) 0%,
@@ -68,7 +68,7 @@
   );
 }
 
-.weather-bg.snow {
+.weather-bg.dark {
   background: linear-gradient(
     90deg,
     rgb(171, 187, 194) 0%,
@@ -288,14 +288,43 @@
   }
 }
 
-.city-name {
+.weather-options .city-name {
   display: none;
 }
 
-.city-name.active {
+.weather-options .options-btn {
+  display: none;
+}
+
+.weather-options {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 8px;
+}
+
+.weather-options .options-btn button {
+  font-size: 20px;
+  border: none;
+  background-color: transparent;
+  color: #fff;
+}
+
+.weather-options .options-btn button:disabled {
+  color: rgba(218, 218, 218, 0.2);
+}
+
+.weather-options .options-btn span {
+  padding: 0 8px;
+}
+
+.weather-options.active .city-name {
   display: block;
-  padding-left: 8px;
+  font-size: 20px;
   text-transform: capitalize;
+}
+
+.weather-options.active .options-btn {
+  display: block;
 }
 
 #clone-weather-info,

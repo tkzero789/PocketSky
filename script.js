@@ -5,11 +5,14 @@ const weatherBox = document.querySelector(".weather-box");
 const weatherDetails = document.querySelector(".weather-details");
 const notFound = document.querySelector(".not-found");
 const cityName = document.querySelector(".city-name");
+const switchImperial = document.querySelector(".unit-switch-imperial");
+const switchMetric = document.querySelector(".unit-switch-metric");
+const weatherOpt = document.querySelector(".weather-options");
 
-search.addEventListener("click", async (event) => {
-  event.preventDefault();
-  search.disabled = true; // disable the button
-
+// Fetch function
+async function fetchWeater(unit) {
+  switchMetric.disabled = true;
+  switchImperial.disabled = true;
   const APIKey = "681e1c47b7529bb804b6026546154c55";
   const city = document.querySelector(".search-box input").value;
 
@@ -17,7 +20,7 @@ search.addEventListener("click", async (event) => {
 
   try {
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${APIKey}`
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${unit}&appid=${APIKey}`
     );
     const json = await response.json();
     console.log(json);
@@ -40,7 +43,7 @@ search.addEventListener("click", async (event) => {
     const wind = document.querySelector(".weather-details .wind span");
 
     cityName.textContent = city;
-    cityName.classList.add("active");
+    weatherOpt.classList.add("active");
     cityName.innerHTML = "City: " + city;
     container.style.height = "555px";
     container.classList.add("active");
@@ -51,53 +54,41 @@ search.addEventListener("click", async (event) => {
     setTimeout(() => {
       container.classList.remove("active");
       search.disabled = false;
+      switchMetric.disabled = false;
+      switchImperial.disabled = false;
     }, 2500);
 
     switch (json.weather[0].main) {
       case "Clear":
         img.src = "./assets/img/clear.png";
-        background.classList.add("clear");
-        background.classList.remove("clouds");
-        background.classList.remove("mist-haze");
-        background.classList.remove("rain");
-        background.classList.remove("snow");
+        background.classList.add("bright");
+        background.classList.remove("dark");
+
         break;
 
       case "Clouds":
         img.src = "./assets/img/cloud.png";
-        background.classList.add("clouds");
-        background.classList.remove("clear");
-        background.classList.remove("mist-haze");
-        background.classList.remove("rain");
-        background.classList.remove("snow");
+        background.classList.add("bright");
+        background.classList.remove("dark");
         break;
 
       case "Mist":
       case "Haze":
         img.src = "./assets/img/mist.png";
-        background.classList.add("mist-haze");
-        background.classList.remove("clear");
-        background.classList.remove("clouds");
-        background.classList.remove("rain");
-        background.classList.remove("snow");
+        background.classList.add("dark");
+        background.classList.remove("bright");
         break;
 
       case "Rain":
         img.src = "./assets/img/rain.png";
-        background.classList.add("rain");
-        background.classList.remove("clear");
-        background.classList.remove("clouds");
-        background.classList.remove("mist-haze");
-        background.classList.remove("snow");
+        background.classList.add("dark");
+        background.classList.remove("bright");
         break;
 
       case "Snow":
         img.src = "./assets/img/snow.png";
-        background.classList.add("snow");
-        background.classList.remove("clear");
-        background.classList.remove("clouds");
-        background.classList.remove("mist-haze");
-        background.classList.remove("rain");
+        background.classList.add("dark");
+        background.classList.remove("bright");
         break;
 
       default:
@@ -105,10 +96,14 @@ search.addEventListener("click", async (event) => {
         break;
     }
 
-    temp.innerHTML = `${parseInt(json.main.temp)}<span>°C</span>`;
+    temp.innerHTML = `${parseInt(json.main.temp)}<span>${
+      unit === "metric" ? "°C" : "°F"
+    }</span>`;
     desc.innerHTML = `${json.weather[0].description}`;
     humid.innerHTML = `${json.main.humidity}%`;
-    wind.innerHTML = `${parseInt(json.wind.speed)}Km/h`;
+    wind.innerHTML = `${parseInt(json.wind.speed)} ${
+      unit === "metric" ? "km/h" : "mph"
+    }`;
 
     // Clone (for transition animation)
     const weatherInfo = document.querySelector(`.weather-info`);
@@ -162,4 +157,23 @@ search.addEventListener("click", async (event) => {
   } catch (error) {
     console.error(error);
   }
+}
+
+// Switch to imperial unit
+switchImperial.addEventListener("click", async (event) => {
+  event.preventDefault();
+  fetchWeater("imperial");
+});
+
+// Switch to metric unit
+switchMetric.addEventListener("click", async (event) => {
+  event.preventDefault();
+  fetchWeater("metric");
+});
+
+search.addEventListener("click", async (event) => {
+  event.preventDefault();
+  search.disabled = true;
+  fetchWeater("metric");
+  document.activeElement.blur();
 });
