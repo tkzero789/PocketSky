@@ -4,6 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PocketSky</title>
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./assets/favicons/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/favicons/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./assets/favicons/favicon-16x16.png"
+    />
+    <link rel="manifest" href="./assets/favicons/site.webmanifest" />
     <link rel="stylesheet" href="styles.css" />
     <link
       rel="stylesheet"
@@ -12,15 +30,24 @@
   </head>
   <body>
     <div class="weather-bg">
-      <div class="home-icon"></div>
+      <a href="." class="home-logo">
+        <div class="home-logo-text">
+          PocketSky
+          <div class="home-logo-icon">
+            <img
+              src="./assets/img/cloud-sun-icon-128.png"
+              alt="PocketSky logo"
+            />
+          </div>
+        </div>
+      </a>
       <div class="container">
         <!-- Search bar -->
         <div class="search-box">
-          <form>
-            <i class="bi bi-geo-alt-fill"></i>
-            <input type="text" placeholder="Weather in your city" />
-            <button class="bi bi-search"></button>
-          </form>
+          <div class="search-bar">
+            <i class="bi bi-search"></i>
+            <input type="text" placeholder="Search weather in your city" />
+          </div>
           <div class="search-results">
             <div class="search-results-wrapper"></div>
           </div>
@@ -118,7 +145,7 @@
         </div>
 
         <!-- City not found -->
-        <div class="not-found">
+        <div class="city-not-found">
           <div class="weather-box-wrapper">
             <img src="./assets/img/windsock.svg" alt="Can't find weather" />
             <p>City not found</p>

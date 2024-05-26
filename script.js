@@ -1,11 +1,10 @@
 const container = document.querySelector(".container");
-const homeIcon = document.querySelector(".home-icon");
-const searchBtn = document.querySelector(".search-box button");
+const homeLogo = document.querySelector(".home-logo");
 const searchInput = document.querySelector(".search-box input");
 const form = document.querySelector("form");
 const weatherBox = document.querySelector(".weather-box");
 const weatherDetails = document.querySelector(".weather-details");
-const notFound = document.querySelector(".not-found");
+const notFound = document.querySelector(".city-not-found");
 const cityName = document.querySelector(".city-name");
 const cityCountry = document.querySelector(".city-country");
 const switchImperial = document.querySelector(".unit-switch-imperial");
@@ -18,191 +17,10 @@ const lessDetailBtn = document.querySelector(".less-detail-btn");
 const searchResult = document.querySelector(".search-results");
 const eachCity = document.querySelector(".search-results-wrapper ul li");
 
-// Fetch function
-async function fetchWeater(unit) {
-  switchMetric.disabled = true;
-  switchImperial.disabled = true;
-  searchBtn.disabled = true;
-  const APIKey = "681e1c47b7529bb804b6026546154c55";
-  const city = document.querySelector(".search-box input").value;
-
-  if (city === "") return;
-
-  try {
-    const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${unit}&appid=${APIKey}`
-    );
-    const json = await response.json();
-    console.log(json);
-
-    if (json.cod == "404") {
-      homeIcon.classList.add("hidden");
-      cityName.textContent = "N/A";
-      cityCountry.textContent = "N/A";
-      container.style.height = "420px";
-      weatherBox.classList.remove("active");
-      weatherDetails.classList.remove("active");
-      notFound.classList.add("active");
-      moreDetailBtn.classList.remove("active");
-      moreDetailsGroup.classList.remove("active");
-      lessDetailBtn.classList.remove("active");
-      searchBtn.disabled = false;
-      return;
-    }
-
-    const background = document.querySelector(".weather-bg");
-    const img = document.querySelector(".weather-box img");
-    const temp = document.querySelector(".weather-box .temperature");
-    const desc = document.querySelector(".weather-box .description");
-    const humid = document.querySelector(".weather-details .humidity span");
-    const wind = document.querySelector(".weather-details .wind span");
-    const tempHigh = document.querySelector(".more-details-data .temp-high");
-    const tempLow = document.querySelector(".more-details-data .temp-low");
-    const pressure = document.querySelector(".more-details-data .pressure");
-    const visibility = document.querySelector(".more-details-data .visibility");
-
-    homeIcon.classList.add("hidden");
-    cityName.textContent = city;
-    cityName.innerHTML = "City: " + city;
-    cityCountry.innerHTML = `Country: ${json.sys.country}`;
-    container.style.height = "556px";
-    container.classList.add("active");
-    weatherOpt.classList.add("active");
-    weatherBox.classList.add("active");
-    weatherDetails.classList.add("active");
-    moreDetailBtn.classList.add("active");
-    notFound.classList.remove("active");
-    moreDetailBtn.classList.remove("hidden");
-    moreDetailsGroup.classList.remove("active");
-    lessDetailBtn.classList.remove("active");
-
-    setTimeout(() => {
-      container.classList.remove("active");
-      switchMetric.disabled = false;
-      switchImperial.disabled = false;
-      searchBtn.disabled = false;
-    }, 2500);
-
-    switch (json.weather[0].main) {
-      case "Clear":
-        img.src = "./assets/img/clear-day.svg";
-        background.classList.add("bright");
-        background.classList.remove("dark");
-
-        break;
-
-      case "Clouds":
-        img.src = "./assets/img/partly-cloudy-day.svg";
-        background.classList.add("bright");
-        background.classList.remove("dark");
-        break;
-
-      case "Mist":
-      case "Haze":
-        img.src = "./assets/img/fog.svg";
-        background.classList.add("dark");
-        background.classList.remove("bright");
-        break;
-
-      case "Rain":
-        img.src = "./assets/img/rain.svg";
-        background.classList.add("dark");
-        background.classList.remove("bright");
-        break;
-
-      case "Thunderstorm":
-        img.src = "./assets/img/thunderstorms-rain.svg";
-        background.classList.add("dark");
-        background.classList.remove("bright");
-        break;
-
-      case "Snow":
-        img.src = "./assets/img/snow.svg";
-        background.classList.add("dark");
-        background.classList.remove("bright");
-        break;
-
-      default:
-        img.src = "./assets/img/cloud.png";
-        break;
-    }
-
-    temp.innerHTML = `${parseInt(json.main.temp)}<span>${
-      unit === "metric" ? "°C" : "°F"
-    }</span>`;
-    desc.innerHTML = `${json.weather[0].description}`;
-    humid.innerHTML = `${json.main.humidity}%`;
-    wind.innerHTML = `${parseInt(json.wind.speed)} ${
-      unit === "metric" ? "km/h" : "mph"
-    }`;
-    tempHigh.innerHTML = `${parseInt(json.main.temp_max)}<span>°</span> / `;
-    tempLow.innerHTML = `${parseInt(json.main.temp_min)}<span>°</span>`;
-    pressure.innerHTML = `${(json.main.pressure * 0.0295).toFixed(
-      2
-    )} <span>in</span>`;
-    visibility.innerHTML = `${(
-      json.visibility / (unit === "metric" ? 1000 : 1609.34)
-    ).toFixed(2)}<span> ${unit === "metric" ? "km" : "mi"}</span>`;
-
-    // Clone (for transition animation)
-    const weatherInfo = document.querySelector(`.weather-info`);
-    const humidInfo = document.querySelector(`.humid-info`);
-    const windInfo = document.querySelector(`.wind-info`);
-
-    const elCloneWeatherInfo = weatherInfo.cloneNode(true);
-    const elCloneHumidInfo = humidInfo.cloneNode(true);
-    const elCloneWindInfo = windInfo.cloneNode(true);
-
-    elCloneWeatherInfo.id = "clone-weather-info";
-    elCloneWeatherInfo.classList.add("active-clone");
-
-    elCloneHumidInfo.id = "clone-humid-info";
-    elCloneHumidInfo.classList.add("active-clone");
-
-    elCloneWindInfo.id = "clone-wind-info";
-    elCloneWindInfo.classList.add("active-clone");
-
-    setTimeout(() => {
-      weatherInfo.insertAdjacentElement("afterend", elCloneWeatherInfo);
-      humidInfo.insertAdjacentElement("afterend", elCloneHumidInfo);
-      windInfo.insertAdjacentElement("afterend", elCloneWindInfo);
-    }, 2200);
-
-    const cloneWeatherInfo = document.querySelectorAll(
-      ".weather-info.active-clone"
-    );
-    const totalCloneWeatherInfo = cloneWeatherInfo.length;
-    const cloneWeatherInfoSub = cloneWeatherInfo[0];
-
-    const cloneHumidInfo = document.querySelectorAll(
-      ".humid-info.active-clone"
-    );
-    const cloneHumidInfoSub = cloneHumidInfo[0];
-
-    const cloneWindInfo = document.querySelectorAll(".wind-info.active-clone");
-    const cloneWindInfoSub = cloneWindInfo[0];
-
-    if (totalCloneWeatherInfo > 0) {
-      cloneWeatherInfoSub.classList.remove("active-clone");
-      cloneHumidInfoSub.classList.remove("active-clone");
-      cloneWindInfoSub.classList.remove("active-clone");
-
-      setTimeout(() => {
-        cloneWeatherInfoSub.remove();
-        cloneHumidInfoSub.remove();
-        cloneWindInfoSub.remove();
-      }, 2200);
-    }
-  } catch (error) {
-    console.error(error);
-  }
-}
-
 // Fetch function 2
 async function fetchWeater2(cityId, unit) {
   switchMetric.disabled = true;
   switchImperial.disabled = true;
-  searchBtn.disabled = true;
   const APIKey = "681e1c47b7529bb804b6026546154c55";
   const city = document.querySelector(".search-box input").value;
 
@@ -214,7 +32,7 @@ async function fetchWeater2(cityId, unit) {
     console.log(json);
 
     if (json.cod == "404") {
-      homeIcon.classList.add("hidden");
+      homeLogo.classList.add("resize");
       cityName.textContent = "N/A";
       cityCountry.textContent = "N/A";
       container.style.height = "420px";
@@ -224,7 +42,6 @@ async function fetchWeater2(cityId, unit) {
       moreDetailBtn.classList.remove("active");
       moreDetailsGroup.classList.remove("active");
       lessDetailBtn.classList.remove("active");
-      searchBtn.disabled = false;
       return;
     }
 
@@ -239,7 +56,7 @@ async function fetchWeater2(cityId, unit) {
     const pressure = document.querySelector(".more-details-data .pressure");
     const visibility = document.querySelector(".more-details-data .visibility");
 
-    homeIcon.classList.add("hidden");
+    homeLogo.classList.add("resize");
     cityName.textContent = city;
     cityName.innerHTML = "City: " + city;
     cityCountry.innerHTML = `Country: ${json.sys.country}`;
@@ -258,7 +75,6 @@ async function fetchWeater2(cityId, unit) {
       container.classList.remove("active");
       switchMetric.disabled = false;
       switchImperial.disabled = false;
-      searchBtn.disabled = false;
     }, 2500);
 
     switch (json.weather[0].main) {
@@ -376,6 +192,7 @@ async function fetchWeater2(cityId, unit) {
   }
 }
 
+let selectedCityId = null;
 // Input
 searchInput.addEventListener("input", async () => {
   const APIKey = "681e1c47b7529bb804b6026546154c55";
@@ -426,8 +243,6 @@ searchInput.addEventListener("input", async () => {
       li.appendChild(span2);
       li.appendChild(span3);
 
-      let selectedCityId = null;
-
       li.addEventListener("click", () => {
         selectedCityId = city.id;
         fetchWeater2(selectedCityId, "imperial");
@@ -435,26 +250,6 @@ searchInput.addEventListener("input", async () => {
       });
 
       ul.appendChild(li);
-
-      // Switch to metric unit
-      switchMetric.addEventListener("click", async (event) => {
-        event.preventDefault();
-        if (selectedCityId) {
-          fetchWeater2(selectedCityId, "metric");
-        } else {
-          console.log("No city selected yet");
-        }
-      });
-
-      // Switch to imperial unit
-      switchImperial.addEventListener("click", async (event) => {
-        event.preventDefault();
-        if (selectedCityId) {
-          fetchWeater2(selectedCityId, "imperial");
-        } else {
-          console.log("No city selected yet");
-        }
-      });
     });
 
     // Append the ul to the .search-results-wrapper div
@@ -464,12 +259,24 @@ searchInput.addEventListener("input", async () => {
   }
 });
 
-// Button
-searchBtn.addEventListener("click", async (event) => {
+// Switch to metric unit
+switchMetric.addEventListener("click", async (event) => {
   event.preventDefault();
-  searchResult.classList.add("hidden");
-  fetchWeater("imperial");
-  document.activeElement.blur();
+  if (selectedCityId) {
+    fetchWeater2(selectedCityId, "metric");
+  } else {
+    console.log("No city selected yet");
+  }
+});
+
+// Switch to imperial unit
+switchImperial.addEventListener("click", async (event) => {
+  event.preventDefault();
+  if (selectedCityId) {
+    fetchWeater2(selectedCityId, "imperial");
+  } else {
+    console.log("No city selected yet");
+  }
 });
 
 // More details
