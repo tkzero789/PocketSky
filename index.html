@@ -12,11 +12,13 @@
   </head>
   <body>
     <div class="weather-bg">
+      <div class="home-icon"></div>
       <div class="container">
+        <!-- Search bar -->
         <div class="search-box">
           <form>
             <i class="bi bi-geo-alt-fill"></i>
-            <input type="text" placeholder="Enter Your Location" />
+            <input type="text" placeholder="Weather in your city" />
             <button class="bi bi-search"></button>
           </form>
           <div class="search-results">
@@ -49,6 +51,7 @@
             </div>
           </div>
         </div>
+
         <!-- Weather details -->
         <div class="weather-details">
           <div class="humidity">
@@ -114,11 +117,11 @@
           </div>
         </div>
 
-        <!-- Not found -->
+        <!-- City not found -->
         <div class="not-found">
           <div class="weather-box-wrapper">
-            <img src="./assets/img/404.png" alt="Can't find weather" />
-            <p>Location not found</p>
+            <img src="./assets/img/windsock.svg" alt="Can't find weather" />
+            <p>City not found</p>
           </div>
         </div>
       </div>

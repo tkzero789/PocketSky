@@ -9,16 +9,12 @@
 
 .weather-bg {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   min-height: 100vh;
   overflow: hidden;
-  background: linear-gradient(
-    90deg,
-    rgba(76, 162, 204, 1) 0%,
-    rgba(79, 154, 196, 1) 35%,
-    rgba(41, 145, 196, 1) 100%
-  );
+  background-image: linear-gradient(to top, #e9c8bf 0%, #d899d8 100%);
 }
 
 .weather-bg.bright {
@@ -43,15 +39,36 @@
   position: relative;
   width: 400px;
   height: 100px;
-  background-color: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(30px);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
   padding: 20px;
   color: #fff;
   transition: height 0.6s ease;
   display: flex;
   flex-direction: column;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(164, 167, 206, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.home-icon {
+  width: 100%;
+  height: 160px;
+  display: block;
+  position: absolute;
+  top: 26%;
+  background-image: url(./assets/img/horizon.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+
+  @media only screen and (max-width: 768px) {
+    background-position: center 30px;
+  }
+}
+
+.home-icon.hidden {
+  display: none;
 }
 
 .search-box {
@@ -91,6 +108,7 @@
 .search-results ul li {
   padding: 16px 16px;
   display: flex;
+  transition: background-color 0.1s ease-in-out;
 }
 
 .search-results ul li:first-child {
@@ -104,7 +122,7 @@
 }
 
 .search-results ul li:hover {
-  background-color: rgb(255, 248, 238);
+  background-color: rgb(240, 240, 240);
 }
 
 .search-results ul li:not(:first-child) {
@@ -146,6 +164,7 @@
 .search-box button {
   position: absolute;
   right: 0;
+  margin-right: 8px;
   width: 40px;
   height: 100%;
   background-color: transparent;
@@ -159,6 +178,7 @@
   color: rgba(218, 218, 218, 0.2);
 }
 
+/* Weather box */
 .weather-box {
   text-align: center;
 }
@@ -170,7 +190,6 @@
 }
 
 .weather-box.active {
-  margin-top: 12px;
   visibility: visible;
 }
 
@@ -287,7 +306,7 @@
   margin-top: 110px;
   visibility: hidden;
   opacity: 0;
-  transition: opacity 0.8s 0s, visibility 0.8s 0s;
+  transition: opacity 0.5s 0s, visibility 0.5s 0s;
 }
 
 .not-found img {
@@ -399,8 +418,16 @@
   flex-grow: 1;
 }
 
+.more-details-icon {
+  width: 38%;
+}
+
 .more-details-icon i {
   font-size: 20px;
+}
+
+.more-details-description {
+  flex-grow: 1;
 }
 
 .more-detail-btn,

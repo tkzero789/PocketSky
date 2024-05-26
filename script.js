@@ -1,4 +1,5 @@
 const container = document.querySelector(".container");
+const homeIcon = document.querySelector(".home-icon");
 const searchBtn = document.querySelector(".search-box button");
 const searchInput = document.querySelector(".search-box input");
 const form = document.querySelector("form");
@@ -35,9 +36,10 @@ async function fetchWeater(unit) {
     console.log(json);
 
     if (json.cod == "404") {
+      homeIcon.classList.add("hidden");
       cityName.textContent = "N/A";
       cityCountry.textContent = "N/A";
-      container.style.height = "568px";
+      container.style.height = "420px";
       weatherBox.classList.remove("active");
       weatherDetails.classList.remove("active");
       notFound.classList.add("active");
@@ -59,10 +61,11 @@ async function fetchWeater(unit) {
     const pressure = document.querySelector(".more-details-data .pressure");
     const visibility = document.querySelector(".more-details-data .visibility");
 
+    homeIcon.classList.add("hidden");
     cityName.textContent = city;
     cityName.innerHTML = "City: " + city;
     cityCountry.innerHTML = `Country: ${json.sys.country}`;
-    container.style.height = "568px";
+    container.style.height = "556px";
     container.classList.add("active");
     weatherOpt.classList.add("active");
     weatherBox.classList.add("active");
@@ -211,9 +214,10 @@ async function fetchWeater2(cityId, unit) {
     console.log(json);
 
     if (json.cod == "404") {
+      homeIcon.classList.add("hidden");
       cityName.textContent = "N/A";
       cityCountry.textContent = "N/A";
-      container.style.height = "568px";
+      container.style.height = "420px";
       weatherBox.classList.remove("active");
       weatherDetails.classList.remove("active");
       notFound.classList.add("active");
@@ -235,10 +239,11 @@ async function fetchWeater2(cityId, unit) {
     const pressure = document.querySelector(".more-details-data .pressure");
     const visibility = document.querySelector(".more-details-data .visibility");
 
+    homeIcon.classList.add("hidden");
     cityName.textContent = city;
     cityName.innerHTML = "City: " + city;
     cityCountry.innerHTML = `Country: ${json.sys.country}`;
-    container.style.height = "568px";
+    container.style.height = "556px";
     container.classList.add("active");
     weatherOpt.classList.add("active");
     weatherBox.classList.add("active");
@@ -421,12 +426,35 @@ searchInput.addEventListener("input", async () => {
       li.appendChild(span2);
       li.appendChild(span3);
 
+      let selectedCityId = null;
+
       li.addEventListener("click", () => {
-        fetchWeater2(city.id, "imperial");
+        selectedCityId = city.id;
+        fetchWeater2(selectedCityId, "imperial");
         searchResult.classList.add("hidden");
       });
 
       ul.appendChild(li);
+
+      // Switch to metric unit
+      switchMetric.addEventListener("click", async (event) => {
+        event.preventDefault();
+        if (selectedCityId) {
+          fetchWeater2(selectedCityId, "metric");
+        } else {
+          console.log("No city selected yet");
+        }
+      });
+
+      // Switch to imperial unit
+      switchImperial.addEventListener("click", async (event) => {
+        event.preventDefault();
+        if (selectedCityId) {
+          fetchWeater2(selectedCityId, "imperial");
+        } else {
+          console.log("No city selected yet");
+        }
+      });
     });
 
     // Append the ul to the .search-results-wrapper div
@@ -444,22 +472,10 @@ searchBtn.addEventListener("click", async (event) => {
   document.activeElement.blur();
 });
 
-// Switch to imperial unit
-switchImperial.addEventListener("click", async (event) => {
-  event.preventDefault();
-  fetchWeater("imperial");
-});
-
-// Switch to metric unit
-switchMetric.addEventListener("click", async (event) => {
-  event.preventDefault();
-  fetchWeater("metric");
-});
-
 // More details
 moreDetailBtn.addEventListener("click", (event) => {
   event.preventDefault;
-  container.style.height = "692px";
+  container.style.height = "680px";
 
   moreDetailBtn.classList.add("hidden");
 
@@ -470,7 +486,7 @@ moreDetailBtn.addEventListener("click", (event) => {
 // Less details
 lessDetailBtn.addEventListener("click", (event) => {
   event.preventDefault;
-  container.style.height = "568px";
+  container.style.height = "556px";
 
   moreDetailBtn.classList.remove("hidden");
 
