@@ -1,3 +1,5 @@
+![PocketSkyProject](https://github.com/user-attachments/assets/155ef123-46d7-4253-8de6-944dd3e17791)
+
 ## About
 
 PocketSky is a simple, user-friendly weather application built using HTML, CSS, and JavaScript. This web-based app allows users to quickly check current weather conditions for any city around the world. With its clean interface and essential features, PocketSky provides a straightforward way to stay informed about weather conditions in various locations.
